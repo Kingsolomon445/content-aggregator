@@ -1,0 +1,29 @@
+
+
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+{% block content %}
+            <section>
+        <!-- Content -->
+                <h1>Delete Post</h1>
+                <hr class="major" />
+                    <div class="row gtr-200">
+                        <div class="col-6 col-12-medium">
+                            <form method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                    <div class="row gtr-uniform">
+                                        <div class="col-12">
+                                            <p>Are you sure you want to delete "<strong>{{ post.title }}</strong>"?</p>
+                                        </div>
+                                        <div class="col-12">
+                                            <ul class="actions">
+                                                <li><input type="submit" value="Confirm" class="primary" /></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </form>
+                        </div>
+                    </div>
+        </section>
+{% endblock %}
+

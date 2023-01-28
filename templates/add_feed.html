@@ -1,0 +1,29 @@
+
+
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+{% block content %}
+
+            <section>
+        <!-- Content -->
+                    <div class="row gtr-200">
+                        <div class="col-6 col-12-medium">
+                            <h3>Add New Feed</h3>
+                            <form method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                    <div class="row gtr-uniform">
+                                        <div class="col-12">
+                                            {{ form | crispy }}
+                                        </div>
+                                        <div class="col-12">
+                                            <ul class="actions">
+                                                <li><input type="submit" value="Add" class="primary" /></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </form>
+                        </div>
+                    </div>
+        </section>
+{% endblock %}
+

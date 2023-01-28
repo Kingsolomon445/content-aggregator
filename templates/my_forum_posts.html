@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+        <!-- Content -->
+            <section>
+                <header class="main">
+                    <h1>My Posts</h1>
+                </header>
+
+                <span class="image main"><img src="{% static 'images/pic11.jpg' %}" alt=""/></span>
+                {% for post in posts %}
+                    {% if request.user.is_authenticated and request.user.username == post.author %}
+                     <h2>{{ post.title }}</h2>
+                     <small>
+                        {{ post.created_on.date }} |&nbsp;
+                        Categories:&nbsp;
+                        {% for category in post.categories.all %}
+                        <a href="{% url 'forum:category' category.name %}">
+                            {{ category.name }}
+                        </a>
+                            {% endfor %}
+                    </small>
+                    <p>{{ post.body | slice:":400" }}............<a class="cont"href="{% url 'forum:post' post.pk%}">read more</a></p>
+                    <ul class="actions">
+                        <li><a href="{% url 'forum:update-post' post.pk %}" class="button">Modify</a></li>
+                        <li><a href="{% url 'forum:delete-post' post.pk %}" class="button">Delete</a></li>
+                    </ul>
+                    {% endif %}
+                {% endfor %}
+            <ul class="pagination">
+                <li>
+                    {% if page_obj.has_previous %}
+                        <a href="?page={{ page_obj.previous_page_number }}" class="button">Prev</a>
+                    {% else %}
+                        <span class="button disabled">Prev</span>
+                    {% endif %}
+                </li>
+                {% for page in page_obj.paginator.page_range %}
+                    <li>
+                        {% if page == page_obj.number %}
+                            <span class="page active">{{ page }}</span>
+                        {% else %}
+                            <a href="?page={{ page }}" class="page">{{ page }}</a>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+                <li>
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}" class="button">Next</a>
+                    {% else %}
+                        <span class="button disabled">Next</span>
+                    {% endif %}
+                </li>
+            </ul>
+            </section>
+{% endblock %}

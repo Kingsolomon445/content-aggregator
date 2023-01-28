@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+        <!-- Content -->
+            <section>
+                <header id="hero" class="image main">
+                    <div>
+                      <h1 class="heading_shadow" >ALL FORUM POSTS</h1>
+                      <p>
+                        <a href="#" class="cta">Super Blog</a>
+                      </p>
+                    </div>
+                </header>
+                <div class="forum-post">
+                {% for post in posts %}
+                     <h2>{{ post.title }}</h2>
+                     <small>
+                        {{ post.created_on.date }} |&nbsp;
+                        Categories:&nbsp;
+                        {% for category in post.categories.all %}
+                        <a href="{% url 'forum:category' category.name %}">
+                            {{ category.name }}
+                        </a>&nbsp;
+                         {% endfor %}
+                        Author:
+                        {{ post.author }}
+                    </small>
+                    <p>{{ post.body | slice:":400" | safe}}............<a class="cont"href="{% url 'forum:post' post.pk%}">read more</a></p>
+                    <hr class="major" />
+                {% endfor %}
+                </div>
+                <ul class="pagination">
+                    <li>
+                        {% if page_obj.has_previous %}
+                            <a href="?page={{ page_obj.previous_page_number }}" class="button">Prev</a>
+                        {% else %}
+                            <span class="button ">Prev</span>
+                        {% endif %}
+                    </li>
+                    {% for page in page_obj.paginator.page_range %}
+                        <li>
+                            {% if page == page_obj.number %}
+                                <span class="page active">{{ page }}</span>
+                            {% else %}
+                                <a href="?page={{ page }}" class="page">{{ page }}</a>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                    <li>
+                        {% if page_obj.has_next %}
+                            <a href="?page={{ page_obj.next_page_number }}" class="button">Next</a>
+                        {% else %}
+                            <span class="button disabled">Next</span>
+                        {% endif %}
+                    </li>
+                </ul>
+
+            </section>
+{% endblock %}

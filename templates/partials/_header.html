@@ -1,0 +1,80 @@
+{% load static %}
+
+<!-- Menu -->
+  <nav id="menu">
+        <header class="major">
+            <h2>Menu</h2>
+        </header>
+        <ul>
+        <li><a href="{% url 'blog:homepage' %}">Home</a> </li>
+        <li> <a href="{% url 'forum:index' %}">Forum</a>   </li>
+        <li>
+                <span class="opener">Latest Tech Contents</span>
+                <ul>
+                    <li><a href="{% url 'blog:python-page' %}">Python</a></li>
+                     <li><a href="{% url 'blog:cyber-security-page' %}">CyberSecurity</a></li>
+                    <li><a href="{% url 'blog:software-development-page' %}">Software Development</a> </li>
+                    <li><a href="{% url 'blog:ui-ux-page' %}">UI & UX</a> </li>
+                     <li><a href="{% url 'blog:mobile-pc-page' %}">Mobile & PC</a> </li>
+                    <li><a href="{% url 'blog:crypto-page' %}">Crypto</a> </li>
+                    <li><a href="{% url 'blog:job-updates-page' %}">Jobs Updates</a> </li>
+                </ul>
+            </li>
+            {% if user.is_authenticated %}
+            <li>
+            <span class="opener">My Sections</span>
+                <ul>
+                    <li> <a href="{% url 'forum:create-post' %}">Create Post</a>  </li>
+                    <li> <a href="{% url 'forum:my-posts' %}">My Posts</a>  </li>
+                    <li><a href="{% url 'blog:add-feed-page' %}">Add Feed</a></li>
+                    <li><a href="{% url 'blog:my-feed-page' %}">My Feed Contents</a></li>
+                    <li><a  href="{% url 'user-creation:logout' %}">Logout</a> </li>
+                    <li><a  href="{% url 'password_change' %}">Change Password</a> </li>
+                </ul>
+            </li>
+            {% else %}
+            <li><a href="{% url 'user-creation:login' %}">Log in</a> </li>
+            <li><a href="{% url 'user-creation:signup' %}">Sign up</a>  </li>
+              {% endif %}
+        </ul>
+    </nav>
+
+		<!-- Section -->
+    <section>
+        <header class="major">
+            <h2>Founding Posts</h2>
+        </header>
+        <div class="mini-posts">
+            <article>
+                <a href="#" class="image"><img src="{% static 'images/story.jpeg' %}" alt="" /></a>
+                <p>Hello everyone!
+                    I wanted to share my journey as a software developer with you all. It all started back in June 2022 when I decided to take the plunge and teach myself how to code.
+                </p>
+            </article>
+            <article>
+                <a href="#" class="image"><img src="{% static 'images/python.jpeg' %}" alt="" /></a>
+                <p>Python and Django are two of the most popular technologies used in web development today.</p>
+            </article>
+            <article>
+                <a href="#" class="image"><img src="{% static 'images/rainbow-keys.jpg' %}" alt="" /></a>
+                <p>Cyber security is an important topic that affects us all. In the digital age, we rely heavily on technology in our daily lives, from our smartphones to our laptops to our smart home devices.</p>
+            </article>
+        </div>
+        <ul class="actions">
+            <li><a href="{% url 'forum:index' %}" class="button">More</a></li>
+        </ul>
+    </section>
+
+<!-- Section -->
+    <section>
+        <header class="major">
+            <h2>Get in touch</h2>
+        </header>
+        <p>Thank you for visiting our website! We value your feedback and want to hear from you. If you have any questions, comments, or suggestions, please don't hesitate to reach out to us. We look forward to hearing from you!</p>
+        <ul class="contact">
+            <li class="icon solid fa-envelope"><a href="mailto:sftdev@greatsuperlian.com">sftdev@greatsuperlian.com</a></li>
+        </ul>
+    </section>
+
+
+

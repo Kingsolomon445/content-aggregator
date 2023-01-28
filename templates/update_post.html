@@ -1,0 +1,31 @@
+
+
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+{% block content %}
+            <section>
+        <!-- Content -->
+                    <h1>Modify Post</h1>
+                <hr class="major" />
+                    <div class="row gtr-200">
+                        <div class="col-6 col-12-medium">
+                            <h3>Log in</h3>
+                            <form method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                    <div class="row gtr-uniform">
+                                        <div class="col-12">
+                                            {{ form | crispy }}
+                                        </div>
+                                        <div class="col-12">
+                                            <ul class="actions">
+                                                <li><input type="submit" value="Modify Post" class="primary" /></li>
+                                                <li><input type="reset" value="Reset" /></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </form>
+                        </div>
+                    </div>
+        </section>
+{% endblock %}
+

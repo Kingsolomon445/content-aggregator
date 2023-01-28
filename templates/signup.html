@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+{% block content %}
+            <section>
+                    <div class="row gtr-200">
+                        <div class="col-6 col-12-medium">
+                            <h3>Sign Up</h3>
+                            <form method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                    <div class="row gtr-uniform">
+                                        <div class="col-6 col-12-xsmall">
+                                            {{ form | crispy }}
+                                        </div>
+                                        <div class="col-12">
+                                            <input type="checkbox" id="demo-terms-conditions" name="demo-terms-conditions" required>
+                                            <label for="demo-terms-conditions">I agree to the <a href="#">terms and conditions</a></label>
+                                        </div>
+                                        <!-- Break -->
+                                        <div class="col-12">
+                                            <ul class="actions">
+                                                <li><input type="submit" value="Sign Up" class="primary" /></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </form>
+                        </div>
+                    </div>
+        </section>
+{% endblock %}

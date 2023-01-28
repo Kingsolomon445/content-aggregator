@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+    <section>
+        <div class="row gtr-200">
+            <div class="col-6 col-12-medium">
+                <h3>Create New Post</h3>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row gtr-uniform">
+                        <div class="col-12">
+                            {% crispy form %}
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+{% endblock %}

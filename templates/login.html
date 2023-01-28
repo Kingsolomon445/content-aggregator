@@ -1,0 +1,33 @@
+
+
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+{% block content %}
+            <section>
+        <!-- Content -->
+                    <h1>Welcome to superBlog</h1>
+                    <p>Stay up-to-date with the latest technology news and trends. Create your own personalized feeds and share your thoughts and ideas on various technology topics. Join our community of tech enthusiasts and experts. With superBlog, you have the opportunity to read news from multiple website and sources in one place.</p>
+                <hr class="major" />
+                    <div class="row gtr-200">
+                        <div class="col-6 col-12-medium">
+                            <h3>Log in</h3>
+                            <form method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                    <div class="row gtr-uniform">
+                                        <div class="col-12">
+                                            {{ form | crispy }}
+                                        </div>
+                                        <div class="col-12">
+                                            <ul class="actions">
+                                                <li><input type="submit" value="Log in" class="primary" /></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </form>
+                            <div class="col-12">
+                                <a href="{% url 'password_reset' %}">Forgot your password?</a>
+                            </div>
+                        </div>
+                    </div>
+        </section>
+{% endblock %}
