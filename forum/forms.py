@@ -1,21 +1,25 @@
+from bleach import clean
 from crispy_forms.helper import FormHelper
 from django import forms
 from crispy_forms.layout import Submit
 from ckeditor.widgets import CKEditorWidget
-from html_sanitizer import Sanitizer
 
 from .models import Post, Category
+
+ALLOWED_TAGS = ['p', 'i', 'strong', 'em']
 
 
 
 class PostForm(forms.ModelForm):
-    categories = forms.ChoiceField(
-        widget=forms.RadioSelect,
-        choices=[(c.id, c.name) for c in Category.objects.all()],
-    )
-    image_url = forms.URLField(label='Image URL',
-                               widget=forms.URLInput(attrs={'placeholder': 'Enter Image URL(Optional)'}), required=False)
-
+    try:
+        categories = forms.ChoiceField(
+            widget=forms.RadioSelect,
+            choices=[(c.id, c.name) for c in Category.objects.all()],
+        )
+        image_url = forms.URLField(label='Image URL',
+                                   widget=forms.URLInput(attrs={'placeholder': 'Enter Image URL(Optional)'}), required=False)
+    except Exception as e:
+        print(f"Make migrations error first: {e}")
     class Meta:
         model = Post
         fields = ['title', 'body', 'image_url', 'categories']
@@ -33,15 +37,12 @@ class PostForm(forms.ModelForm):
         title = self.cleaned_data.get('title')
         if len(title) < 10:
             raise forms.ValidationError('Title must be at least 10 characters long.')
-        return title
-
-
+        sanitized_title = clean(title, tags=ALLOWED_TAGS, strip=True)
+        return sanitized_title
 
     def clean_body(self):
-        # sanitizes the post body from unwanted html tags
         body = self.cleaned_data.get('body')
-        sanitizer = Sanitizer()
-        sanitized_body = sanitizer.sanitize(body)
+        sanitized_body = clean(body, tags=ALLOWED_TAGS, strip=True)
         return sanitized_body
 
 

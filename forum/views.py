@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_protect
 from django.views.generic import View, DetailView, ListView
 from django.views.generic.edit import FormMixin, DeleteView
 from django.urls import reverse, reverse_lazy
@@ -24,6 +26,7 @@ class MyPostView(LoginRequiredMixin, ListView):
         return context
 
 
+@method_decorator(csrf_protect, name='dispatch')
 class CreatePostView(LoginRequiredMixin, View):
     def get(self, request):
         form = PostForm()
@@ -34,12 +37,16 @@ class CreatePostView(LoginRequiredMixin, View):
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
-            post.save()
-            form.save_m2m()
+            if request.user.is_staff:
+                post.is_approved = True
+                post.save()
+                form.save_m2m()
+            else:
+                post.save()
             return redirect('forum:index')
         return render(request, 'create_post.html', {'form': form})
 
-
+@method_decorator(csrf_protect, name='dispatch')
 class UpdatePostView(LoginRequiredMixin, View):
     def get(self, request, pk):
         post = Post.objects.get(pk=pk)
@@ -68,6 +75,9 @@ class ForumIndexView(ListView):
     ordering = ['-created_on']
     paginate_by = 5
 
+    def get_queryset(self):
+        return Post.objects.filter(is_approved=True)
+
 
 class ForumCategoryView(ListView):
     model = Post
@@ -87,7 +97,7 @@ class ForumCategoryView(ListView):
         context['category'] = self.kwargs['category']
         return context
 
-
+@method_decorator(csrf_protect, name='dispatch')
 class ForumPostView(DetailView, FormMixin):
     model = Post
     template_name = 'forum_post.html'

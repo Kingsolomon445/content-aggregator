@@ -76,6 +76,17 @@ input, select, textarea {
 	word-wrap: break-word;
 }
 
+/* CK Editor style */
+#cke_id_body {
+  width: 200% !important;
+}
+
+@media screen and (max-width:980px) {
+  #cke_id_body {
+    width: 100% !important;;
+  }
+}
+
 /*Team Images*/
 .team-section {
     display: flex;
