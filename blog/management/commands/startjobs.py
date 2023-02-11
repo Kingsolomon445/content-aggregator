@@ -13,6 +13,7 @@ import logging
 # Django
 from django.core.management.base import BaseCommand
 from django.conf import settings
+from django_apscheduler import util
 from django_apscheduler.jobstores import DjangoJobStore
 from django_apscheduler.models import DjangoJobExecution
 from django.db.models import Q
@@ -98,7 +99,10 @@ def save_new_contents(feed, Content):
         except Exception as e:
             print(f"An error occurred while saving the contents for {content_title}: {e}")
 
-
+# The `close_old_connections` decorator ensures that database connections, that have become
+# unusable or are obsolete, are closed before and after your job has run. You should use it
+# to wrap any jobs that you schedule that access the Django database in any way.
+@util.close_old_connections
 def fetch_users_content():
         users_with_feeds = MyFeedContent.objects.values_list('user', flat=True).distinct()
         for user in users_with_feeds:
@@ -114,6 +118,7 @@ def fetch_users_content():
                 except Exception as e:
                     print(f"An error occurred while fetching the feed for {feed}: {e}")
 
+@util.close_old_connections
 def fetch_crypto_content():
     """Fetches latest crypto contents"""
     _feeds = [
@@ -128,6 +133,7 @@ def fetch_crypto_content():
         save_new_contents(_feed, CryptoContent)
 
 
+@util.close_old_connections
 def fetch_tech_jobs():
     """Fetch latest tech job updates"""
     _feeds = [
@@ -147,7 +153,7 @@ def fetch_tech_jobs():
         _feed = feedparser.parse(feed_url)
         save_new_contents(_feed, JobUpdatesContent)
 
-
+@util.close_old_connections
 def fetch_cyber_content():
     """Fetches cyber security contents and news"""
     _feeds = [
@@ -165,7 +171,7 @@ def fetch_cyber_content():
         _feed = feedparser.parse(feed_url)
         save_new_contents(_feed, CyberSecurityContent)
 
-
+@util.close_old_connections
 def fetch_python_content():
     """Fetches pythonic contents"""
     _feeds = [
@@ -184,7 +190,7 @@ def fetch_python_content():
         _feed = feedparser.parse(feed_url)
         save_new_contents(_feed, PythonContent)
 
-
+@util.close_old_connections
 def fetch_sd_content():
     """Fetches software development contents"""
     _feeds = ["https://www.itpro.com/software-development/feed", "https://www.techradar.com/rss/news/software",
@@ -201,7 +207,7 @@ def fetch_sd_content():
         _feed = feedparser.parse(feed_url)
         save_new_contents(_feed, SoftwareDevelopmentContent)
 
-
+@util.close_old_connections
 def fetch_ui_ux_content():
     """Fetches UI contents"""
     _feeds = [
@@ -218,7 +224,7 @@ def fetch_ui_ux_content():
         _feed = feedparser.parse(feed_url)
         save_new_contents(_feed, UiUxContent)
 
-
+@util.close_old_connections
 def fetch_mobile_pc_content():
     """Fetches news relating to mobile and pc devices & development"""
     _feeds = [
@@ -236,7 +242,7 @@ def fetch_mobile_pc_content():
         _feed = feedparser.parse(feed_url)
         save_new_contents(_feed, MobilePcContent)
 
-
+@util.close_old_connections
 def fetch_general_content():
     """Fetches contents for ai , startups and other things"""
     _feeds = ["https://www.zdnet.com/topic/artificial-intelligence/rss.xml", "https://techcrunch.com/feed/",
@@ -253,7 +259,7 @@ def fetch_general_content():
         _feed = feedparser.parse(feed_url)
         save_new_contents(_feed, GeneralContent)
 
-
+@util.close_old_connections
 def delete_old_job_executions(max_age=604_800):
     """Deletes all apscheduler job execution logs older than `max_age`."""
     DjangoJobExecution.objects.delete_old_job_executions(max_age)

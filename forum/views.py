@@ -72,11 +72,10 @@ class ForumIndexView(ListView):
     model = Post
     template_name = 'forum_index.html'
     context_object_name = 'posts'
-    ordering = ['-created_on']
     paginate_by = 5
 
     def get_queryset(self):
-        return Post.objects.filter(is_approved=True)
+        return Post.objects.filter(is_approved=True).order_by('-created_on')
 
 
 class ForumCategoryView(ListView):
