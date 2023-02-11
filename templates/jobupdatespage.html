@@ -15,11 +15,7 @@
                     {% for content in contents %}
                         <article>
                             <a href="#" class="image">
-                                {% if content.image %}
-                                    <img src="{{ content.image }}" alt="{{ content.content_name|escape }}">
-                                {% else %}
-                                    <img src="{% static content.random_image %}" alt="{{ content.content_name|escape }}">
-                                {% endif %}
+                                <img src="{{ content.image }}" alt="{{ content.content_name|escape }}">
                             </a>
                             <h3>{{ content.title|escape }}</h3>
                             <p>{{ content.description|escape|safe | slice:":400" }}</p>
