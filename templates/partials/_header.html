@@ -42,23 +42,17 @@
 		<!-- Section -->
     <section>
         <header class="major">
-            <h2>Founding Posts</h2>
+            <h2>Recent Posts</h2>
         </header>
         <div class="mini-posts">
+        {% if recent_posts %}
+            {% for post in recent_posts %}
             <article>
-                <a href="#" class="image"><img src="{% static 'images/story.jpeg' %}" alt="" /></a>
-                <p>Hello everyone!
-                    I wanted to share my journey as a software developer with you all. It all started back in June 2022 when I decided to take the plunge and teach myself how to code.
-                </p>
+                <a href="#" class="image"><img src="{{ post.image_url }}" alt="" /></a>
+                <p>{{ post.body | safe | slice:":200" }}....</p>
             </article>
-            <article>
-                <a href="#" class="image"><img src="{% static 'images/python.jpeg' %}" alt="" /></a>
-                <p>Python and Django are two of the most popular technologies used in web development today.</p>
-            </article>
-            <article>
-                <a href="#" class="image"><img src="{% static 'images/rainbow-keys.jpg' %}" alt="" /></a>
-                <p>Cyber security is an important topic that affects us all. In the digital age, we rely heavily on technology in our daily lives, from our smartphones to our laptops to our smart home devices.</p>
-            </article>
+            {% endfor %}
+        {% endif %}
         </div>
         <ul class="actions">
             <li><a href="{% url 'forum:index' %}" class="button">More</a></li>
