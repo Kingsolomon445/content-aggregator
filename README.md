@@ -2,7 +2,7 @@
 This is a content aggregator that gets different tech contents from different websites plus a blog forum(Made with Python & Django).
 Feel free to change the codes, add more functionalities , change design , whatever you wish.
 
-Note: *I have an already running website for content aggregator so it is crucial to change design and maybe some functionalities and securities to your taste.*
+Note: *I have an already running website www.greatsuperlian.com for content aggregator so it is crucial to change design and maybe some functionalities and securities to your taste.*
 
 
 
