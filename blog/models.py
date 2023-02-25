@@ -30,9 +30,6 @@ class GeneralContent(BaseModel):
     pass
 
 
-class PythonContent(BaseModel):
-    pass
-
 
 class SoftwareDevelopmentContent(BaseModel):
     pass

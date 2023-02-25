@@ -45,14 +45,15 @@ class HomePageView(ListView):
 
 @method_decorator(csrf_protect, name='dispatch')
 class MyFeedPageView(HomePageView):
-    template_name = "myfeedpage.html"
+    template_name = "contentpage.html"
     model = MyFeedContent
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # Gets feeds belonging to each user
-        user_feeds = MyFeedContent.objects.filter(user=self.request.user)
-        context["feeds"] = user_feeds
+        user_feeds = MyFeedContent.objects.filter(user=self.request.user).order_by("-pub_date")
+        context["contents"] = user_feeds
+        context["page"] = 'My Personalized feeds'
         return context
 
 
@@ -60,46 +61,69 @@ class MyFeedPageView(HomePageView):
 
 @method_decorator(csrf_protect, name='dispatch')
 class JobUpdatesPageView(HomePageView):
-    template_name = "jobupdatespage.html"
+    template_name = "contentpage.html"
     model = JobUpdatesContent
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["page"] = "Job Updates & Startups"
+        return context
 
-
-
-@method_decorator(csrf_protect, name='dispatch')
-class PythonPageView(HomePageView):
-    template_name = "pythonpage.html"
-    model = PythonContent
 
 
 
 
 @method_decorator(csrf_protect, name='dispatch')
 class CyberSecurityPageView(HomePageView):
-    template_name = "cybersecuritypage.html"
+    template_name = "contentpage.html"
     model = CyberSecurityContent
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["page"] = "Cyber Security"
+        return context
 
 
 
 @method_decorator(csrf_protect, name='dispatch')
 class SoftwareDevelopmentPageView(HomePageView):
-    template_name = "softwaredevelopmentpage.html"
+    template_name = "contentpage.html"
     model = SoftwareDevelopmentContent
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["page"] = "Software Development"
+        return context
 
 
 @method_decorator(csrf_protect, name='dispatch')
 class UiUxPageView(HomePageView):
-    template_name = "ui_uxpage.html"
+    template_name = "contentpage.html"
     model = UiUxContent
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["page"] = "Ui Ux"
+        return context
 
 
 @method_decorator(csrf_protect, name='dispatch')
 class MobilePcPageView(HomePageView):
-    template_name = "mobile-pcpage.html"
+    template_name = "contentpage.html"
     model = MobilePcContent
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["page"] = "Mobile & pc"
+        return context
 
 
 @method_decorator(csrf_protect, name='dispatch')
 class CryptoPageView(HomePageView):
-    template_name = "cryptopage.html"
+    template_name = "contentpage.html"
     model = CryptoContent
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["page"] = "Crypto"
+        return context

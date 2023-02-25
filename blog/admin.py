@@ -5,7 +5,6 @@ from .models import *
 
 
 admin.site.register(GeneralContent)
-admin.site.register(PythonContent)
 admin.site.register(CyberSecurityContent)
 admin.site.register(SoftwareDevelopmentContent)
 admin.site.register(UiUxContent)

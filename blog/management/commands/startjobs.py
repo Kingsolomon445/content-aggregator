@@ -183,24 +183,6 @@ def fetch_cyber_content():
         save_new_contents(_feed, CyberSecurityContent)
 
 
-@util.close_old_connections
-def fetch_python_content():
-    """Fetches pythonic contents"""
-    _feeds = [
-        "https://www.blog.pythonlibrary.org/feed/", "https://blog.finxter.com/feed/",
-        "https://www.fullstackpython.com/feeds/all.atom.xml", "https://talkpython.fm/episodes/rss",
-        "https://www.pythonpodcast.com/rss/", "https://feeds.feedburner.com/DougHellmann/",
-        "https://planetpython.org/rss20.xml", "https://realpython.com/atom.xml?format=xml",
-        "https://feeds.feedburner.com/PythonSoftwareFoundationNews", "https://blog.jetbrains.com/pycharm/feed/",
-        "https://planet.scipy.org/feed.xml", "https://www.pythonblogs.com/feed/",
-        "https://devblogs.microsoft.com/python/feed/", "https://blog.python.org/feeds/posts/default",
-        "https://developers.redhat.com/taxonomy/term/12611/feed", "https://www.askpython.com/feed",
-        "https://anvil.works/blog/feed.xml", "https://pythonguides.com/feed/",
-        "https://blog.pythonanywhere.com/index.xml", "https://pycon.blogspot.com/feeds/posts/default",
-    ]
-    for feed_url in _feeds:
-        _feed = feedparser.parse(feed_url)
-        save_new_contents(_feed, PythonContent)
 
 
 @util.close_old_connections
@@ -321,17 +303,6 @@ class Command(BaseCommand):
             replace_existing=True,
         )
         logger.info("Added job: The General Content.")
-
-        # Schedule Python Content job to run every 1 minute
-        scheduler.add_job(
-            fetch_python_content,
-            trigger="interval",
-            minutes=1.3,
-            id="Python Contents",
-            max_instances=1,
-            replace_existing=True,
-        )
-        logger.info("Added job: The Python Content.")
 
         # Schedule Software Development Content job to run every 1 minute
         scheduler.add_job(

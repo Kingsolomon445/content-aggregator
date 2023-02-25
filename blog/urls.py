@@ -6,7 +6,6 @@ from .views import *
 app_name = 'blog'
 urlpatterns = [
     path("", HomePageView.as_view(), name="homepage"),
-    path("python/", PythonPageView.as_view(), name="python-page"),
     path("cyber-security/", CyberSecurityPageView.as_view(), name="cyber-security-page"),
     path("software-development/", SoftwareDevelopmentPageView.as_view(), name="software-development-page"),
     path("ui-ux/", UiUxPageView.as_view(), name="ui-ux-page"),
