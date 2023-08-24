@@ -7,7 +7,7 @@ from forum.models import Category, Post, Comments
 
 class HomePageViewTestCase(TestCase):
     url = '/'
-    template = 'index2.html'
+    template = 'index.html'
 
     def setUp(self):
         self.client = Client()
