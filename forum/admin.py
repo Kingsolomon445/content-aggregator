@@ -1,12 +1,10 @@
 from django.contrib import admin
 from .models import Category, Post, Comments
+from .forms import PostForm
 
 
-# Register your models here.
-
-# The following classes are just for customization for what is shown on the admin pages
 class PostAdmin(admin.ModelAdmin):
-    pass
+    form = PostForm
 
 
 class CategoryAdmin(admin.ModelAdmin):
@@ -14,4 +12,5 @@ class CategoryAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Category)
-admin.site.register(Post)
+admin.site.register(Post, PostAdmin)
+admin.site.register(Comments)

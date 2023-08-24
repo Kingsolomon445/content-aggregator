@@ -9,7 +9,7 @@
 								<section>
 								    <div class="forum-post">
                                     <header class="main">
-                                        <h1>{{ post.title }}</h1>
+                                        <h2>{{ post.title | safe }}</h2>
                                     </header>
                                         <small>
                                             {{ post.created_on.date }} |&nbsp;
@@ -23,17 +23,12 @@
                                             {{ post.author }}
                                         </small>
                                         <p>
-                                            <span class="image left">
-                                                {% if post.image_url %}
-                                                    <img src="{{ post.image_url }}" alt="" />
-                                                {% else %}
-                                                    <img src="{% static 'images/pic07.jpg' %}" alt="" />
-                                                {% endif %}
-                                            </span>
-                                            {{ post.body | safe | linebreaks }}.</p>
+                                            {{ post.body | safe | linebreaks }}.
+                                        </p>
                                         </div>
                                         <div class="row gtr-200 forum-post">
                                             <div class="col-6 col-12-medium">
+                                            {% if user.is_authenticated %}
                                                 <h3>Leave a comment:</h3>
                                                 <form action="{% url 'forum:post' post.pk %}" method="post">
                                                     {% csrf_token %}
@@ -48,13 +43,16 @@
                                                         </div>
                                                     </div>
                                                 </form>
+                                                {% else %}
+                                                <p><strong>Please log in to post a comment.</strong></p>
+                                                {% endif %}
                                                 <h3>Comments:</h3>
                                                 {% for comment in comments %}
                                                 <p>
                                                     On {{comment.created_on.date }}&nbsp;
                                                     <b>{{ comment.author }}</b> wrote:
                                                 </p>
-                                                <p>{{ comment.body }}</p>
+                                                <p>{{ comment.body | safe }}</p>
                                                 <hr>
                                                 {% endfor %}
                                             </div>

@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
-from django.core.validators import URLValidator
 from django.db import models
+
+from django.core.validators import URLValidator
 
 
 # Create your models here.
@@ -20,15 +21,12 @@ class BaseModel(models.Model):
         return f"{self.content_name}: {self.title}"
 
 
-class MyFeedContent(BaseModel):
-    url = models.CharField(null=True, max_length=1999, validators=[URLValidator()])
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    last_modified = models.DateTimeField(auto_now=True)
-
-
 class GeneralContent(BaseModel):
     pass
 
+
+class PythonContent(BaseModel):
+    pass
 
 
 class SoftwareDevelopmentContent(BaseModel):

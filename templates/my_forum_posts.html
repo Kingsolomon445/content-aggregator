@@ -11,7 +11,7 @@
                 <span class="image main"><img src="{% static 'images/pic11.jpg' %}" alt=""/></span>
                 {% for post in posts %}
                     {% if request.user.is_authenticated and request.user.username == post.author %}
-                     <h2>{{ post.title }}</h2>
+                     <h2>{{ post.title | safe}}</h2>
                      <small>
                         {{ post.created_on.date }} |&nbsp;
                         Categories:&nbsp;
@@ -21,7 +21,7 @@
                         </a>
                             {% endfor %}
                     </small>
-                    <p>{{ post.body | slice:":400" }}............<a class="cont"href="{% url 'forum:post' post.pk%}">read more</a></p>
+                    <p>{{ post.body | slice:":400" | safe}}............<a class="cont"href="{% url 'forum:post' post.pk%}">read more</a></p>
                     <ul class="actions">
                         <li><a href="{% url 'forum:update-post' post.pk %}" class="button">Modify</a></li>
                         <li><a href="{% url 'forum:delete-post' post.pk %}" class="button">Delete</a></li>

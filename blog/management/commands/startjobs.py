@@ -1,24 +1,23 @@
-from io import BytesIO
+# Standard Library
+import os
+
+import logging
 
 import feedparser
 import re
 import html
 import requests
+from io import BytesIO
 from PIL import Image
 from dateutil import parser
-import os
-
-from django.db import transaction
-
-import logging
 
 # Django
 from django.core.management.base import BaseCommand
 from django.conf import settings
-from django_apscheduler import util
 from django_apscheduler.jobstores import DjangoJobStore
 from django_apscheduler.models import DjangoJobExecution
 from django.db.models import Q
+from django_apscheduler import util
 
 # Third Party
 from apscheduler.schedulers.blocking import BlockingScheduler
@@ -27,8 +26,7 @@ from apscheduler.triggers.cron import CronTrigger
 # Models
 from blog.models import *
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "content_aggregator.settings")
-
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "your_project_name.settings")
 CLEANR = re.compile('<.*?>')
 
 logger = logging.getLogger(__name__)
@@ -111,22 +109,6 @@ def save_new_contents(feed, Content):
 # The `close_old_connections` decorator ensures that database connections, that have become
 # unusable or are obsolete, are closed before and after your job has run. You should use it
 # to wrap any jobs that you schedule that access the Django database in any way.
-@util.close_old_connections
-def fetch_users_content():
-    users_with_feeds = MyFeedContent.objects.values_list('user', flat=True).distinct()
-    for user in users_with_feeds:
-        feeds = MyFeedContent.objects.filter(user=user).values_list('url', flat=True)
-        if not feeds:
-            continue
-        for feed in feeds:
-            if not feed:
-                continue
-            try:
-                parsed_feed = feedparser.parse(feed)
-                save_new_contents(parsed_feed, MyFeedContent)
-            except Exception as e:
-                print(f"An error occurred while fetching the feed for {feed}: {e}")
-
 
 @util.close_old_connections
 def fetch_crypto_content():
@@ -183,6 +165,24 @@ def fetch_cyber_content():
         save_new_contents(_feed, CyberSecurityContent)
 
 
+@util.close_old_connections
+def fetch_python_content():
+    """Fetches pythonic contents"""
+    _feeds = [
+        "https://www.blog.pythonlibrary.org/feed/", "https://blog.finxter.com/feed/",
+        "https://www.fullstackpython.com/feeds/all.atom.xml", "https://talkpython.fm/episodes/rss",
+        "https://www.pythonpodcast.com/rss/", "https://feeds.feedburner.com/DougHellmann/",
+        "https://planetpython.org/rss20.xml", "https://realpython.com/atom.xml?format=xml",
+        "https://feeds.feedburner.com/PythonSoftwareFoundationNews", "https://blog.jetbrains.com/pycharm/feed/",
+        "https://planet.scipy.org/feed.xml", "https://www.pythonblogs.com/feed/",
+        "https://devblogs.microsoft.com/python/feed/", "https://blog.python.org/feeds/posts/default",
+        "https://developers.redhat.com/taxonomy/term/12611/feed", "https://www.askpython.com/feed",
+        "https://anvil.works/blog/feed.xml", "https://pythonguides.com/feed/",
+        "https://blog.pythonanywhere.com/index.xml",
+    ]
+    for feed_url in _feeds:
+        _feed = feedparser.parse(feed_url)
+        save_new_contents(_feed, PythonContent)
 
 
 @util.close_old_connections
@@ -192,7 +192,7 @@ def fetch_sd_content():
               "https://sdtimes.com/feed/", "https://www.javaworld.com/index.rss", "eweek.com/feed",
               "https://www.developer-tech.com/feed", "feeds.feedburner.com/thenextweb", "theencrypt.com/feed",
               "https://www.techradar.com/rss/news/java", "https://feed.infoq.com/",
-              "techmeme.com/feed.xml", "https://news.ycombinator.com/rss", "https://www.reddit.com/r/programming/.rss",
+              "techmeme.com/feed.xml", "https://news.ycombinator.com/rss",
               "https://www.programmableweb.com/rss.xml", "https://martinfowler.com/feed.atom",
               "https://scand.com/company/blog/feed/", "https://www.geeksforgeeks.org/feed/",
               "https://www.pluralsight.com/blog.rss.xml", "https://feeds.feedburner.com/TheDailyWtf",
@@ -271,22 +271,11 @@ class Command(BaseCommand):
         scheduler = BlockingScheduler(timezone=settings.TIME_ZONE)
         scheduler.add_jobstore(DjangoJobStore(), "default")
 
-        # Note that in production , the time interval shouldn't be in seconds , usually in hours , 6, 12 e.t.c
-        scheduler.add_job(
-            fetch_users_content,
-            trigger="interval",
-            minutes=1,
-            id="Users Content",
-            max_instances=1,
-            replace_existing=True,
-        )
-        logger.info("Added job, Users Content.")
-
         # Schedule Cyber Security Content job to run every 1 minute
         scheduler.add_job(
             fetch_cyber_content,
             trigger="interval",
-            minutes=1.1,
+            minutes=1,
             id="CyberSecurity Contents",
             max_instances=1,
             replace_existing=True,
@@ -297,18 +286,29 @@ class Command(BaseCommand):
         scheduler.add_job(
             fetch_general_content,
             trigger="interval",
-            minutes=1.2,
+            minutes=1.1,
             id="General Contents",
             max_instances=1,
             replace_existing=True,
         )
         logger.info("Added job: The General Content.")
 
+        # Schedule Python Content job to run every 1 minute
+        scheduler.add_job(
+            fetch_python_content,
+            trigger="interval",
+            minutes=1.2,
+            id="Python Contents",
+            max_instances=1,
+            replace_existing=True,
+        )
+        logger.info("Added job: The Python Content.")
+
         # Schedule Software Development Content job to run every 1 minute
         scheduler.add_job(
             fetch_sd_content,
             trigger="interval",
-            minutes=1.4,
+            minutes=1.3,
             id="SD Contents",
             max_instances=1,
             replace_existing=True,
@@ -319,7 +319,7 @@ class Command(BaseCommand):
         scheduler.add_job(
             fetch_ui_ux_content,
             trigger="interval",
-            minutes=1.5,
+            minutes=1.4,
             id="UI Contents",
             max_instances=1,
             replace_existing=True,
@@ -330,7 +330,7 @@ class Command(BaseCommand):
         scheduler.add_job(
             fetch_mobile_pc_content,
             trigger="interval",
-            minutes=1.6,
+            minutes=1.5,
             id="Mobile & PC Contents",
             max_instances=1,
             replace_existing=True,
@@ -341,7 +341,7 @@ class Command(BaseCommand):
         scheduler.add_job(
             fetch_tech_jobs,
             trigger="interval",
-            minutes=1.7,
+            minutes=1.6,
             id="Job Updates & Contents",
             max_instances=1,
             replace_existing=True,
@@ -352,7 +352,7 @@ class Command(BaseCommand):
         scheduler.add_job(
             fetch_crypto_content,
             trigger="interval",
-            minutes=1.8,
+            minutes=1.7,
             id="Crypto Contents",
             max_instances=1,
             replace_existing=True,

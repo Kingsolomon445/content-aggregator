@@ -15,11 +15,9 @@ class Post(models.Model):
     author = models.CharField(max_length=50)
     title = models.CharField(max_length=255)
     body = models.TextField()
-    image_url = models.CharField(null=True, max_length=1999, validators=[URLValidator()])
     created_on = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
     categories = models.ManyToManyField('Category', related_name='posts')
-    is_approved = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title

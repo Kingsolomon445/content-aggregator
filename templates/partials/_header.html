@@ -9,32 +9,33 @@
         <li><a href="{% url 'blog:homepage' %}">Home</a> </li>
         <li> <a href="{% url 'forum:index' %}">Forum</a>   </li>
         <li>
-                <span class="opener">Latest Tech Contents</span>
+                <span class="opener">Contents Sections</span>
                 <ul>
+                    <!--<li><a href="{% url 'blog:python-page' %}">Python</a></li>-->
                      <li><a href="{% url 'blog:cyber-security-page' %}">CyberSecurity</a></li>
                     <li><a href="{% url 'blog:software-development-page' %}">Software Development</a> </li>
                     <li><a href="{% url 'blog:ui-ux-page' %}">UI & UX</a> </li>
                      <li><a href="{% url 'blog:mobile-pc-page' %}">Mobile & PC</a> </li>
-                    <li><a href="{% url 'blog:crypto-page' %}">Crypto</a> </li>
+                     <li><a href="{% url 'blog:crypto-page' %}">Crypto</a> </li>
                     <li><a href="{% url 'blog:job-updates-page' %}">Jobs Updates</a> </li>
                 </ul>
             </li>
             {% if user.is_authenticated %}
-            <li>
-            <span class="opener">My Sections</span>
-                <ul>
-                    <li> <a href="{% url 'forum:create-post' %}">Create Post</a>  </li>
-                    <li> <a href="{% url 'forum:my-posts' %}">My Posts</a>  </li>
-                    <li><a href="{% url 'blog:add-feed-page' %}">Add Feed</a></li>
-                    <li><a href="{% url 'blog:my-feed-page' %}">My Feed Contents</a></li>
-                    <li><a  href="{% url 'user-creation:logout' %}">Logout</a> </li>
-                    <li><a  href="{% url 'password_change' %}">Change Password</a> </li>
-                </ul>
-            </li>
+                <li>
+                    <span class="opener">My Sections</span>
+                    <ul>
+                        {% if user.is_staff %}
+                            <li><a href="{% url 'forum:create-post' %}">Create Post</a></li>
+                            <li><a href="{% url 'forum:my-posts' %}">My Posts</a></li>
+                        {% endif %}
+                        <li><a href="{% url 'password_change' %}">Change Password</a></li>
+                        <li><a href="{% url 'user-creation:logout' %}">Logout</a></li>
+                    </ul>
+                </li>
             {% else %}
-            <li><a href="{% url 'user-creation:login' %}">Log in</a> </li>
-            <li><a href="{% url 'user-creation:signup' %}">Sign up</a>  </li>
-              {% endif %}
+                <li><a href="{% url 'user-creation:login' %}">Log in</a></li>
+                <li><a href="{% url 'user-creation:signup' %}">Sign up</a></li>
+            {% endif %}
         </ul>
     </nav>
 
@@ -44,14 +45,12 @@
             <h2>Recent Posts</h2>
         </header>
         <div class="mini-posts">
-        {% if recent_posts %}
             {% for post in recent_posts %}
             <article>
                 <a href="#" class="image"><img src="{{ post.image_url }}" alt="" /></a>
-                <p>{{ post.body | safe | slice:":200" }}....</p>
+                <p>{{ post.body | safe | slice:":300" }}.......</p>
             </article>
             {% endfor %}
-        {% endif %}
         </div>
         <ul class="actions">
             <li><a href="{% url 'forum:index' %}" class="button">More</a></li>
@@ -66,6 +65,9 @@
         <p>Thank you for visiting our website! We value your feedback and want to hear from you. If you have any questions, comments, or suggestions, please don't hesitate to reach out to us. We look forward to hearing from you!</p>
         <ul class="contact">
             <li class="icon solid fa-envelope"><a href="mailto:sftdev@greatsuperlian.com">sftdev@greatsuperlian.com</a></li>
+        </ul>
+        <ul class="actions">
+            <li><a href="{% url 'blog:about' %}" class="button">About Us</a></li>
         </ul>
     </section>
 

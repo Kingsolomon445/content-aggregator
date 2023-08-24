@@ -8,14 +8,14 @@
         <!-- Content -->
             <section>
                 <header class="main">
-                    <h1>{{ page }}</h1>
+                    <h1>Mobile & Pc</h1>
                 </header>
 
                 <div class="posts">
                     {% for content in contents %}
                         <article>
                             <a href="#" class="image">
-                               <img src="{{ content.image }}" alt="{{ content.content_name|escape }}">
+                                 <img src="{{ content.image }}" alt="{{ content.content_name|escape }}">
                             </a>
                             <h3>{{ content.title|escape }}</h3>
                             <p>{{ content.description|escape|safe| slice:":400" }}</p>

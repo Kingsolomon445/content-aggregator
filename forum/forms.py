@@ -1,37 +1,37 @@
-from bleach import clean
 from crispy_forms.helper import FormHelper
 from django import forms
-from crispy_forms.layout import Submit
-from ckeditor.widgets import CKEditorWidget
+from crispy_forms.layout import Layout, Div, Field, Submit
+# from ckeditor.widgets import CKEditorWidget
+from ckeditor_uploader.widgets import CKEditorUploadingWidget
+from bleach import clean
+from django.utils.safestring import mark_safe
 
 from .models import Post, Category
 
 ALLOWED_TAGS = ['p', 'i', 'strong', 'em']
 
 
-
 class PostForm(forms.ModelForm):
-    try:
-        categories = forms.ChoiceField(
-            widget=forms.RadioSelect,
-            choices=[(c.id, c.name) for c in Category.objects.all()],
-        )
-        image_url = forms.URLField(label='Image URL',
-                                   widget=forms.URLInput(attrs={'placeholder': 'Enter Image URL(Optional)'}), required=False)
-    except Exception as e:
-        print(f"Make migrations error first: {e}")
+    body = forms.CharField(widget=CKEditorUploadingWidget())
+    categories = forms.ModelMultipleChoiceField(
+        queryset=Category.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+    )
+
     class Meta:
         model = Post
-        fields = ['title', 'body', 'image_url', 'categories']
-        widgets = {
-            'body': CKEditorWidget(),
-        }
+        fields = ['title', 'body', 'categories']
 
     def __init__(self, *args, **kwargs):
         super(PostForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_method = 'post'
-        self.helper.add_input(Submit('submit', 'Save'))
+        self.helper.layout = Layout(
+            'title',
+            'body',
+            Div('categories', css_class='mt-4'),
+            Submit('submit', 'Save', css_class='mt-4')  # Adding margin-top
+        )
 
     def clean_title(self):
         title = self.cleaned_data.get('title')
@@ -42,7 +42,9 @@ class PostForm(forms.ModelForm):
 
     def clean_body(self):
         body = self.cleaned_data.get('body')
-        sanitized_body = clean(body, tags=ALLOWED_TAGS, strip=True)
+        if '<script>' in body:
+            raise forms.ValidationError("Comment cannot contain script tags.")
+        sanitized_body = mark_safe(body)
         return sanitized_body
 
 
@@ -69,7 +71,7 @@ class CommentsForm(forms.Form):
 
     def clean_body(self):
         body = self.cleaned_data['body']
-        # Prevent scripting attacks
         if '<script>' in body:
             raise forms.ValidationError("Comment cannot contain script tags.")
-        return body
+        sanitized_body = clean(body, tags=ALLOWED_TAGS, strip=True)
+        return sanitized_body

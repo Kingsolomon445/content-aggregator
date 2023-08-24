@@ -1,12 +1,17 @@
 # content-aggregator
 This is a content aggregator that gets different tech contents from different websites plus a blog forum(Made with Python & Django).
-Feel free to change the codes, add more functionalities , change design , whatever you wish.
 
 
 
 # STEPS
 
 git clone https://github.com/Kingsolomon445/content-aggregator
+
+## **Modify Secret Key so it works**
+```
+File to modify -> content_aggregator/content_aggregator/settings.py
+change SECRET_KEY value into any random secret key or export to env as SECRET_KEY
+```
 
 ## From the project root directory
 
@@ -23,14 +28,19 @@ pip install -r requirements.txt
 
 ## **Create database tables**
 ```
-python3 manage.py makemigrations
-python3 manage.py migrate
+python manage.py makemigrations
+python manage.py migrate
 ```
 
 
 ## **Run the Server**
 ```
-python3 manage.py runserver
+python manage.py runserver
+```
+
+## **Start Scheduler(Fetch Contents)**
+```
+python manage.py startjobs
 ```
 Go to localhost:8000
 
