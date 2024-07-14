@@ -275,7 +275,8 @@ class Command(BaseCommand):
         scheduler.add_job(
             fetch_cyber_content,
             trigger="interval",
-            minutes=1,
+            hours=6.2,
+            # minutes=1.9,
             id="CyberSecurity Contents",
             max_instances=1,
             replace_existing=True,
@@ -286,7 +287,8 @@ class Command(BaseCommand):
         scheduler.add_job(
             fetch_general_content,
             trigger="interval",
-            minutes=1.1,
+            hours=6.3,
+            # minutes=2.0,
             id="General Contents",
             max_instances=1,
             replace_existing=True,
@@ -297,7 +299,8 @@ class Command(BaseCommand):
         scheduler.add_job(
             fetch_python_content,
             trigger="interval",
-            minutes=1.2,
+            hours=6.4,
+            # minutes=2.9,
             id="Python Contents",
             max_instances=1,
             replace_existing=True,
@@ -308,7 +311,8 @@ class Command(BaseCommand):
         scheduler.add_job(
             fetch_sd_content,
             trigger="interval",
-            minutes=1.3,
+            hours=6.5,
+            # minutes=2.8,
             id="SD Contents",
             max_instances=1,
             replace_existing=True,
@@ -319,7 +323,8 @@ class Command(BaseCommand):
         scheduler.add_job(
             fetch_ui_ux_content,
             trigger="interval",
-            minutes=1.4,
+            hours=6.6,
+            # minutes=2.7,
             id="UI Contents",
             max_instances=1,
             replace_existing=True,
@@ -330,7 +335,8 @@ class Command(BaseCommand):
         scheduler.add_job(
             fetch_mobile_pc_content,
             trigger="interval",
-            minutes=1.5,
+            hours=6.7,
+            # minutes=2.6,
             id="Mobile & PC Contents",
             max_instances=1,
             replace_existing=True,
@@ -341,7 +347,8 @@ class Command(BaseCommand):
         scheduler.add_job(
             fetch_tech_jobs,
             trigger="interval",
-            minutes=1.6,
+            hours=6.8,
+            # minutes=2.5,
             id="Job Updates & Contents",
             max_instances=1,
             replace_existing=True,
@@ -352,7 +359,8 @@ class Command(BaseCommand):
         scheduler.add_job(
             fetch_crypto_content,
             trigger="interval",
-            minutes=1.7,
+            hours=6.9,
+            # minutes=2.4,
             id="Crypto Contents",
             max_instances=1,
             replace_existing=True,
