@@ -27,14 +27,6 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-## **Start redis server**
-* This is important so celery can work for task scheduling, you may need to set it up before running these commands
-* These commands are for MAC, may be different for other OS
-```
-redis-server
-sudo rabbitmq-server
-```
-
 ## **Create database tables**
 ```
 python manage.py makemigrations
@@ -45,6 +37,20 @@ python manage.py migrate
 ## **Run the Server**
 ```
 python manage.py runserver
+```
+
+## **Start redis server**
+This is important so celery can work for task scheduling, you may need to set up redis and a broker before running these commands*
+*These commands are for MAC and may be different for other OS*
+```
+redis-server
+sudo rabbitmq-server
+```
+
+## **Celery task scheduling commands**
+```
+celery -A content_aggregator beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler
+celery -A content_aggregator worker --loglevel=info
 ```
 
 Go to localhost:8000
