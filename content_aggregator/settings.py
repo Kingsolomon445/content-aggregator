@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os
+import ssl
 import sys
 import dj_database_url
 from pathlib import Path
@@ -25,6 +26,14 @@ load_dotenv()
 # Celery settings
 
 CELERY_BROKER_URL = os.environ.get('REDIS_URL')
+
+# Adding SSL configuration
+CELERY_BROKER_TRANSPORT_OPTIONS = {
+    'visibility_timeout': 3600,
+    'ssl': {
+        'ssl_cert_reqs': ssl.CERT_NONE  # or CERT_REQUIRED, CERT_OPTIONAL depending on your security needs
+    }
+}
 
 #: Only add pickle to this list if your broker is secured
 #: from unwanted access (see userguide/security.html)
