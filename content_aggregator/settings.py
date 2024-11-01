@@ -10,8 +10,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os
-import ssl
-import sys
 import dj_database_url
 from pathlib import Path
 
@@ -26,11 +24,15 @@ load_dotenv()
 # Celery settings
 
 # Redis URL with SSL options embedded
+# So setting the ssl_cert_reqs in query string worked for heroku development
 CELERY_BROKER_URL = 'rediss://:p98d90061dcbe89e6985697a5415dcf5d633e0ee0438679dc151aa464e3cab1b4@ec2-18-206-36-186.compute-1.amazonaws.com:20450?ssl_cert_reqs=CERT_NONE'
 CELERY_RESULT_BACKEND = 'rediss://:p98d90061dcbe89e6985697a5415dcf5d633e0ee0438679dc151aa464e3cab1b4@ec2-18-206-36-186.compute-1.amazonaws.com:20450?ssl_cert_reqs=CERT_NONE'
 
 
 # Adding SSL configuration
+# Setting ssl_cert_reqs as a dictionary format in transport options here didn't work which is interesting
+# CELERY_BROKER_URL = os.environ.get('REDIS_TLS_URL', 'redis://localhost:6379/0')
+# CELERY_RESULT_BACKEND = os.environ.get('REDIS_TLS_URL', 'redis://localhost:6379/0')
 # CELERY_BROKER_TRANSPORT_OPTIONS = {
 #     'visibility_timeout': 3600,
 #     'ssl': {
@@ -38,11 +40,6 @@ CELERY_RESULT_BACKEND = 'rediss://:p98d90061dcbe89e6985697a5415dcf5d633e0ee04386
 #     }
 # }
 
-#: Only add pickle to this list if your broker is secured
-#: from unwanted access (see userguide/security.html)
-# CELERY_ACCEPT_CONTENT = ['json']
-# CELERY_RESULT_BACKEND = os.environ.get('REDIS_URL')
-# CELERY_TASK_SERIALIZER = 'json'
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent

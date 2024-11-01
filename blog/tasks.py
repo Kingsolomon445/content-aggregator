@@ -1,11 +1,8 @@
-import os
-
 import feedparser
 
 
 from celery import shared_task
-from datetime import timedelta
-from django.utils import timezone
+
 
 
 from .models import *
