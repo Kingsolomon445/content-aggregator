@@ -33,16 +33,17 @@ python manage.py makemigrations
 python manage.py migrate
 ```
 
+## **Start redis server**
+```
+redis-server
+sudo rabbitmq-server
+```
 
 ## **Run the Server**
 ```
 python manage.py runserver
 ```
 
-## **Start Scheduler(Fetch Contents)**
-```
-python manage.py startjobs
-```
 Go to localhost:8000
 
 
