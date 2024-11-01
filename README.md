@@ -27,17 +27,20 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
+## **Start redis server**
+* This is important so celery can work for task scheduling, you may need to set it up before running these commands
+* These commands are for MAC, may be different for other OS
+```
+redis-server
+sudo rabbitmq-server
+```
+
 ## **Create database tables**
 ```
 python manage.py makemigrations
 python manage.py migrate
 ```
 
-## **Start redis server**
-```
-redis-server
-sudo rabbitmq-server
-```
 
 ## **Run the Server**
 ```
