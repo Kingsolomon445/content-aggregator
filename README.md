@@ -40,7 +40,7 @@ python manage.py runserver
 ```
 
 ## **Start redis server**
-This is important so celery can work for task scheduling, you may need to set up redis and a broker before running these commands*
+*This is important so celery can work for task scheduling, you may need to set up redis and a broker before running these commands*
 *These commands are for MAC and may be different for other OS*
 ```
 redis-server
