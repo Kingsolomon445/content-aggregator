@@ -34,51 +34,51 @@ schedule, created = IntervalSchedule.objects.get_or_create(
     period=IntervalSchedule.MINUTES,
 )
 
-# Schedule tasks
-PeriodicTask.objects.create(
-    interval=schedule,
-    name='Fetch crypto content',
-    task='blog.tasks.fetch_crypto_content',
-)
+# # Schedule tasks
+# PeriodicTask.objects.create(
+#     interval=schedule,
+#     name='Fetch crypto content',
+#     task='blog.tasks.fetch_crypto_content',
+# )
 
-PeriodicTask.objects.create(
-    interval=schedule,
-    name='Fetch tech jobs',
-    task='blog.tasks.fetch_tech_jobs',
-)
-PeriodicTask.objects.create(
-    interval=schedule,
-    name='Fetch cyber content',
-    task='blog.tasks.fetch_cyber_content',
-)
+# PeriodicTask.objects.create(
+#     interval=schedule,
+#     name='Fetch tech jobs',
+#     task='blog.tasks.fetch_tech_jobs',
+# )
+# PeriodicTask.objects.create(
+#     interval=schedule,
+#     name='Fetch cyber content',
+#     task='blog.tasks.fetch_cyber_content',
+# )
 
-PeriodicTask.objects.create(
-    interval=schedule,
-    name='Fetch python jobs',
-    task='blog.tasks.fetch_python_jobs',
-)
-PeriodicTask.objects.create(
-    interval=schedule,
-    name='Fetch sd content',
-    task='blog.tasks.fetch_sd_content',
-)
+# PeriodicTask.objects.create(
+#     interval=schedule,
+#     name='Fetch python jobs',
+#     task='blog.tasks.fetch_python_jobs',
+# )
+# PeriodicTask.objects.create(
+#     interval=schedule,
+#     name='Fetch sd content',
+#     task='blog.tasks.fetch_sd_content',
+# )
 
-PeriodicTask.objects.create(
-    interval=schedule,
-    name='Fetch ui_ux jobs',
-    task='blog.tasks.fetch_ui_ux_jobs',
-)
-PeriodicTask.objects.create(
-    interval=schedule,
-    name='Fetch mobile_pc content',
-    task='blog.tasks.fetch_mobile_pc_content',
-)
+# PeriodicTask.objects.create(
+#     interval=schedule,
+#     name='Fetch ui_ux jobs',
+#     task='blog.tasks.fetch_ui_ux_jobs',
+# )
+# PeriodicTask.objects.create(
+#     interval=schedule,
+#     name='Fetch mobile_pc content',
+#     task='blog.tasks.fetch_mobile_pc_content',
+# )
 
-PeriodicTask.objects.create(
-    interval=schedule,
-    name='Fetch general jobs',
-    task='blog.tasks.fetch_general_jobs',
-)
+# PeriodicTask.objects.create(
+#     interval=schedule,
+#     name='Fetch general jobs',
+#     task='blog.tasks.fetch_general_jobs',
+# )
 
 @app.task(bind=True, ignore_result=True)
 def debug_task(self):
