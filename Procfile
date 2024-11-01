@@ -5,3 +5,6 @@ web: gunicorn content_aggregator.wsgi
 # https://docs.djangoproject.com/en/5.1/topics/migrations/
 # https://devcenter.heroku.com/articles/release-phase
 release: ./manage.py migrate --no-input
+
+worker: celery -A content_aggregator worker --loglevel=info
+beat: celery -A content_aggregator beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler

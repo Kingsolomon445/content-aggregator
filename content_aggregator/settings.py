@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     "user_creation.apps.UserCreationConfig",
 
     # Third-Party Apps
+    'django_celery_beat',
     "django_apscheduler",
     "reset_migrations",
     "crispy_forms",
@@ -197,3 +198,8 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 LOGIN_URL = '/user/login/'
 LOGIN_REDIRECT_URL = '/home/'
+
+# Celery Configuration Options
+# CELERY_TIMEZONE = ""
+# CELERY_TASK_TRACK_STARTED = True
+# CELERY_TASK_TIME_LIMIT = 30 * 60
