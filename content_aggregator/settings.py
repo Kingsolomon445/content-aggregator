@@ -25,21 +25,24 @@ load_dotenv()
 
 # Celery settings
 
-CELERY_BROKER_URL = os.environ.get('REDIS_URL')
+# Redis URL with SSL options embedded
+CELERY_BROKER_URL = 'rediss://:p98d90061dcbe89e6985697a5415dcf5d633e0ee0438679dc151aa464e3cab1b4@ec2-18-206-36-186.compute-1.amazonaws.com:20450?ssl_cert_reqs=CERT_NONE'
+CELERY_RESULT_BACKEND = 'rediss://:p98d90061dcbe89e6985697a5415dcf5d633e0ee0438679dc151aa464e3cab1b4@ec2-18-206-36-186.compute-1.amazonaws.com:20450?ssl_cert_reqs=CERT_NONE'
+
 
 # Adding SSL configuration
-CELERY_BROKER_TRANSPORT_OPTIONS = {
-    'visibility_timeout': 3600,
-    'ssl': {
-        'ssl_cert_reqs': ssl.CERT_NONE  # or CERT_REQUIRED, CERT_OPTIONAL depending on your security needs
-    }
-}
+# CELERY_BROKER_TRANSPORT_OPTIONS = {
+#     'visibility_timeout': 3600,
+#     'ssl': {
+#         'ssl_cert_reqs': ssl.CERT_NONE  # or CERT_REQUIRED, CERT_OPTIONAL depending on your security needs
+#     }
+# }
 
 #: Only add pickle to this list if your broker is secured
 #: from unwanted access (see userguide/security.html)
-CELERY_ACCEPT_CONTENT = ['json']
-CELERY_RESULT_BACKEND = os.environ.get('REDIS_URL')
-CELERY_TASK_SERIALIZER = 'json'
+# CELERY_ACCEPT_CONTENT = ['json']
+# CELERY_RESULT_BACKEND = os.environ.get('REDIS_URL')
+# CELERY_TASK_SERIALIZER = 'json'
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
