@@ -25,8 +25,11 @@ load_dotenv()
 
 # Redis URL with SSL options embedded
 # So setting the ssl_cert_reqs in query string worked for heroku development
-CELERY_BROKER_URL = 'rediss://:p98d90061dcbe89e6985697a5415dcf5d633e0ee0438679dc151aa464e3cab1b4@ec2-18-206-36-186.compute-1.amazonaws.com:20450?ssl_cert_reqs=CERT_NONE'
-CELERY_RESULT_BACKEND = 'rediss://:p98d90061dcbe89e6985697a5415dcf5d633e0ee0438679dc151aa464e3cab1b4@ec2-18-206-36-186.compute-1.amazonaws.com:20450?ssl_cert_reqs=CERT_NONE'
+redis_url = os.getenv("REDIS_URL", 'redis://localhost:6379')
+
+# Append SSL certificate reqs
+CELERY_BROKER_URL = f"{redis_url}?ssl_cert_reqs=CERT_NONE"
+CELERY_RESULT_BACKEND = f"{redis_url}?ssl_cert_reqs=CERT_NONE"
 
 
 # Adding SSL configuration
