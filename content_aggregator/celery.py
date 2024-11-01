@@ -6,8 +6,7 @@ application = get_wsgi_application()
 
 from django.conf import settings
 from celery import Celery
-from celery.schedules import crontab
-from django_celery_beat.models import PeriodicTask, IntervalSchedule
+# from django_celery_beat.models import PeriodicTask, IntervalSchedule
 
 # Set the default Django settings module for the 'celery' program.
 # os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'content_aggregator.settings')
@@ -29,10 +28,10 @@ app.conf.update(BROKER_URL=os.environ.get('REDIS_URL'),
 app.autodiscover_tasks()
 
 # Interval schedule 
-schedule, created = IntervalSchedule.objects.get_or_create(
-    every=2,
-    period=IntervalSchedule.MINUTES,
-)
+# schedule, created = IntervalSchedule.objects.get_or_create(
+#     every=2,
+#     period=IntervalSchedule.MINUTES,
+# )
 
 # # Schedule tasks
 # PeriodicTask.objects.create(
