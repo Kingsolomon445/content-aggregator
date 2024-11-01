@@ -1,4 +1,5 @@
 import os
+import ssl
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'content_aggregator.settings')
 
 from django.core.wsgi import get_wsgi_application
@@ -23,6 +24,14 @@ app.config_from_object(f'django.conf:settings', namespace='CELERY')
 
 app.conf.update(BROKER_URL=os.environ.get('REDIS_URL'),
                 CELERY_RESULT_BACKEND=os.environ.get('REDIS_URL'))
+
+# Redis SSL configuration
+app.conf.broker_use_ssl = {
+    'ssl_cert_reqs': ssl.CERT_NONE  # or ssl.CERT_OPTIONAL or ssl.CERT_REQUIRED
+}
+app.conf.result_backend_use_ssl = {
+    'ssl_cert_reqs': ssl.CERT_NONE
+}
 
 # Load task modules from all registered Django apps.
 app.autodiscover_tasks()
