@@ -1,8 +1,7 @@
 # content-aggregator
 This is a content aggregator that gets different tech contents from different websites plus a blog forum(Made with Python & Django).
 
-Live website: https://coral-app-u3c8u.ondigitalocean.app/
-
+Live website: https://content-aggregator-5fe32d76e660.herokuapp.com/
 
 
 # STEPS
