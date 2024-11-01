@@ -18,8 +18,19 @@ from django.core.management.utils import get_random_secret_key
 
 from dotenv import load_dotenv
 
+
 # Load environment variables from a .env file
 load_dotenv()
+
+# Celery settings
+
+CELERY_BROKER_URL = os.environ.get('REDIS_URL')
+
+#: Only add pickle to this list if your broker is secured
+#: from unwanted access (see userguide/security.html)
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_RESULT_BACKEND = os.environ.get('REDIS_URL')
+CELERY_TASK_SERIALIZER = 'json'
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -198,8 +209,3 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 LOGIN_URL = '/user/login/'
 LOGIN_REDIRECT_URL = '/home/'
-
-# Celery Configuration Options
-# CELERY_TIMEZONE = ""
-# CELERY_TASK_TRACK_STARTED = True
-# CELERY_TASK_TIME_LIMIT = 30 * 60
